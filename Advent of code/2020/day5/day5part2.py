@@ -33,13 +33,15 @@ def calculateSeatId(boardingPass):
     return boardingPass.row * 8 + boardingPass.column
 
 def solve(inputLines):
-    maximumSeatId = 0
+    seatIds = []
     decryptor = PartitioningDecryptor()
     for partitioning in inputLines:
         boardingPass = decryptor.decrypt(partitioning)
         seatId = calculateSeatId(boardingPass)
-        maximumSeatId = max(maximumSeatId, seatId)
-    return maximumSeatId
+        seatIds.append(seatId)
+    maximumSeatId, minimumSeatId = max(seatIds), min(seatIds)
+    totalSeatsCount = maximumSeatId - minimumSeatId + 1
+    return totalSeatsCount * (maximumSeatId+minimumSeatId) / 2 - sum(seatIds)
 
 inputFileReader = InputFileReader()
 print(solve(inputFileReader.getInputLines()))
